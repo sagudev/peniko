@@ -5,7 +5,8 @@ use super::Extend;
 
 use color::{
     cache_key::{BitEq, BitHash},
-    AlphaColor, ColorSpace, ColorSpaceTag, DynamicColor, HueDirection, OpaqueColor,
+    AlphaColor, AlphaInterpolationSpace, ColorSpace, ColorSpaceTag, DynamicColor, HueDirection,
+    OpaqueColor,
 };
 use kurbo::Point;
 use smallvec::SmallVec;
@@ -193,6 +194,8 @@ pub struct Gradient {
     ///
     /// [CSS Color Module Level 4 § 12.4]: https://drafts.csswg.org/css-color/#hue-interpolation
     pub hue_direction: HueDirection,
+    /// Alpha space to be used for interpolation
+    pub alpha_interpolation_space: AlphaInterpolationSpace,
     /// Color stop collection.
     pub stops: ColorStops,
 }
@@ -207,6 +210,7 @@ impl Default for Gradient {
             extend: Extend::default(),
             interpolation_cs: DEFAULT_GRADIENT_COLOR_SPACE,
             hue_direction: HueDirection::default(),
+            alpha_interpolation_space: AlphaInterpolationSpace::default(),
             stops: ColorStops::default(),
         }
     }
@@ -223,6 +227,7 @@ impl Gradient {
             extend: Extend::default(),
             interpolation_cs: DEFAULT_GRADIENT_COLOR_SPACE,
             hue_direction: HueDirection::default(),
+            alpha_interpolation_space: AlphaInterpolationSpace::default(),
             stops: ColorStops::default(),
         }
     }
@@ -240,6 +245,7 @@ impl Gradient {
             extend: Extend::default(),
             interpolation_cs: DEFAULT_GRADIENT_COLOR_SPACE,
             hue_direction: HueDirection::default(),
+            alpha_interpolation_space: AlphaInterpolationSpace::default(),
             stops: ColorStops::default(),
         }
     }
@@ -261,6 +267,7 @@ impl Gradient {
             extend: Extend::default(),
             interpolation_cs: DEFAULT_GRADIENT_COLOR_SPACE,
             hue_direction: HueDirection::default(),
+            alpha_interpolation_space: AlphaInterpolationSpace::default(),
             stops: ColorStops::default(),
         }
     }
@@ -277,6 +284,7 @@ impl Gradient {
             extend: Extend::default(),
             interpolation_cs: DEFAULT_GRADIENT_COLOR_SPACE,
             hue_direction: HueDirection::default(),
+            alpha_interpolation_space: AlphaInterpolationSpace::default(),
             stops: ColorStops::default(),
         }
     }
