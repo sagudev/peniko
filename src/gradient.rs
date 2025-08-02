@@ -303,6 +303,16 @@ impl Gradient {
         self
     }
 
+    /// Builder method for setting the interpolation alpha space.
+    #[must_use]
+    pub const fn with_alpha_interpolation(
+        mut self,
+        alpha_interpolation_space: AlphaInterpolationSpace,
+    ) -> Self {
+        self.alpha_interpolation_space = alpha_interpolation_space;
+        self
+    }
+
     /// Builder method for setting the hue direction when interpolating within a cylindrical color space.
     #[must_use]
     pub const fn with_hue_direction(mut self, hue_direction: HueDirection) -> Self {
