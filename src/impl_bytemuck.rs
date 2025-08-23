@@ -3,7 +3,7 @@
 
 #![allow(unsafe_code, reason = "unsafe is required for bytemuck unsafe impls")]
 
-use crate::{Compose, Extend, Fill, ImageFormat, ImageQuality, Mix};
+use crate::{Compose, Extend, Fill, ImageAlphaType, ImageFormat, ImageQuality, Mix};
 
 // Safety: The enum is `repr(u8)` and has only fieldless variants.
 unsafe impl bytemuck::NoUninit for Compose {}
@@ -110,6 +110,31 @@ unsafe impl bytemuck::Contiguous for ImageFormat {
 }
 
 // Safety: The enum is `repr(u8)` and has only fieldless variants.
+unsafe impl bytemuck::NoUninit for ImageAlphaType {}
+
+// Safety: The enum is `repr(u8)` and `0` is a valid value.
+unsafe impl bytemuck::Zeroable for ImageAlphaType {}
+
+// Safety: The enum is `repr(u8)`.
+unsafe impl bytemuck::checked::CheckedBitPattern for ImageAlphaType {
+    type Bits = u8;
+
+    fn is_valid_bit_pattern(bits: &u8) -> bool {
+        use bytemuck::Contiguous;
+        // Don't need to compare against MIN_VALUE as this is u8 and 0 is the MIN_VALUE.
+        *bits <= Self::MAX_VALUE
+    }
+}
+
+// Safety: The enum is `repr(u8)`. All values are `u8` and fall within
+// the min and max values.
+unsafe impl bytemuck::Contiguous for ImageAlphaType {
+    type Int = u8;
+    const MIN_VALUE: u8 = Self::Alpha as u8;
+    const MAX_VALUE: u8 = Self::AlphaPremultiplied as u8;
+}
+
+// Safety: The enum is `repr(u8)` and has only fieldless variants.
 unsafe impl bytemuck::NoUninit for ImageQuality {}
 
 // Safety: The enum is `repr(u8)` and `0` is a valid value.
@@ -151,7 +176,7 @@ unsafe impl bytemuck::checked::CheckedBitPattern for Mix {
 
 #[cfg(test)]
 mod tests {
-    use crate::{Compose, Extend, Fill, ImageFormat, ImageQuality, Mix};
+    use crate::{Compose, Extend, Fill, ImageAlphaType, ImageFormat, ImageQuality, Mix};
     use bytemuck::{checked::try_from_bytes, Contiguous, Zeroable};
     use core::ptr;
 
